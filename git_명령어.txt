@@ -1,3 +1,65 @@
 push : 본인이 파이참에서 작성한 코드를 github로 push(밀어넣기)함
 commit : 본인이 작성한 코드에 대한 코멘트를 남길 수 있음.
 pull : 최신 상태의 프로젝트를 gitHub에서 pull(댕겨오기) 함.
+
+
+Git Branch 관련 (생성, 브랜치 확인, push 까지의 과정 포함)
+git init을 설정하면 해당 폴더에 .git 이라는 파일이 생성됨 
+
+git init
+github 주소와 연결 
+
+git remote add origin [github 주소]
+브랜치 생성
+
+git branch [브랜치명]
+해당 브랜치로 이동
+
+git checkout [브랜치명]
+브랜치를 생성하고 해당 브랜치로 바로 이동
+
+git branch -b [브랜치명]
+원하는 브랜치로 이동했는지 확인 
+
+git branch
+모든 브랜치 확인 
+
+git brach -a
+파일 및 폴더 add
+
+git add .
+커밋 
+
+git commit -m "commit message"
+원하는 브랜치로 push하여 원격 서버에 전송 
+
+git push origin [브랜치명]
+브랜치 삭제 
+
+git branch -d [브랜치 이름]
+현재 브랜치에 다른 브랜치 수정사항 병합
+
+git merge [다른 브랜치 이름]
+
+Git Config 설정 관련 
+ 
+전체 config 리스트 확인 
+
+
+git config --list
+ 
+
+git config 설정하는 방법
+
+git config --global user.name "홍길동"
+git config --global user.email "name@naver.com"
+ 
+git config 삭제하기 
+
+git config --unset user.name
+git config --unset user.email
+ 
+삭제해도 계속 남아있는 경우 global 옵션을 주어 설정했을 것임, global로 설정된 사용자를 지울 경우 아래와 같이 global 추가
+
+git config --unset --global user.name
+git config --unset --global user.email
