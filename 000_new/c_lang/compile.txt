@@ -1,0 +1,2 @@
+gcc -fPIC -c p.c
+gcc -shared -o p.dll p.o
