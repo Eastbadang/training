@@ -1,0 +1,26 @@
+import pymysql
+
+# 전역변수 선언부
+conn = None
+cur = None
+
+sql=""
+
+conn = pymysql.connect(
+    host='127.0.0.1',
+    user='root',
+    password='password',
+    db='mydatabase',
+    charset='utf8'
+)  # 접속번호
+
+cur = conn.cursor()
+
+sql = "INSERT INTO customers (name, address) VALUES (%s, %s)"
+val = ("YANG", "Highway 21")
+
+cur.execute(sql, val)
+
+conn.commit()  # 저장
+
+conn.close()  # 종료

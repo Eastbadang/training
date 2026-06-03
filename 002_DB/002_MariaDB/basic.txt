@@ -1,0 +1,40 @@
+추가
+: INSERT
+
+import pymysql
+
+conn = pymysql.connect(host='localhost', user='root', password='root', charset='utf8', db='kobis') #DB 연결
+cur = conn.cursor() #디폴트 커서 생성
+
+sql = "INSERT INTO boxoffice (targetDt,rank,rankOldAndNew,movieCd,movieNm,salesAmt,audiCnt) VALUES (20180220,11,'OLD',20170511,'코난',36388900,48011);"
+cur.execute(sql)
+conn.commit()
+print('rowcount: ', cur.rowcount)
+
+conn.close() #연결 닫기
+수정
+: UPDATE
+
+import pymysql
+
+conn = pymysql.connect(host='localhost', user='root', password='root', charset='utf8', db='kobis') #DB 연결
+cur = conn.cursor() #디폴트 커서 생성
+
+sql = "UPDATE boxoffice SET movieNm = '코난2' WHERE targetDt = 20180220 AND rank = 11;"
+cur.execute(sql)
+conn.commit()
+
+conn.close() #연결 닫기
+삭제
+: DELETE
+
+import pymysql
+
+conn = pymysql.connect(host='localhost', user='root', password='root', charset='utf8', db='kobis') #DB 연결
+cur = conn.cursor() #디폴트 커서 생성
+
+sql = 'DELETE FROM boxoffice WHERE targetDt = 20180220 AND rank = 11;'
+cur.execute(sql)
+conn.commit()
+
+conn.close() #연결 닫기

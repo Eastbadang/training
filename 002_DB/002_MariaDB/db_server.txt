@@ -1,0 +1,10 @@
+root / password
+
+암호 변경
+MySQL Client 실행
+
+USE mysql
+set password=password('');
+
+Data directory
+C:\Program Files\MariaDB 10.9\data\
