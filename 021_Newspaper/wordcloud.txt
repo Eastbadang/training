@@ -1,0 +1,4 @@
+https://m.blog.naver.com/nickname_j/222052380491
+https://www.lfd.uci.edu/~gohlke/pythonlibs/#wordcloud
+
+pip install wordcloud-1.8.1-cp39-cp39-win_amd64.whl
