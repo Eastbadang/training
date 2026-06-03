@@ -1,3 +1,0 @@
-.param Res1=1k
-.param Cap1=0.1u
-
