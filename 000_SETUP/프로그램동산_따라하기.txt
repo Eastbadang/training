@@ -1,0 +1,35 @@
+1. 파이썬/아나콘다
+   1) 파이썬/아나콘다 설치
+      (1) 파이썬 : https://www.python.org/
+
+       ※ 업데이트
+          - python -m pip install --upgrade pip
+
+      (2) 아나콘다 : https://www.anaconda.com/products/individual
+          ① 프로그램동산 설정
+              - 가상환경 설정/32bit 전환 : 키움증권 API 32bit만 지원
+                 set CONDA_FORCE_32BIT=1
+                 conda create -n py37_32 python=3.7 anaconda
+                 activate py37_32
+
+       ※ 업데이트
+          - conda update -n base conda
+          - conda update --all
+          - python -m pip install --upgrade pip
+
+   2) 에디터 설치
+      (1) PyCharm : https://www.jetbrains.com/ko-kr/pycharm/
+          - X86, X64 모두설치
+          - JVM 동작을 위해 JRE 또는 JDK 옵션 선택설치
+          - Ananconda env 환경 python.exe 연결
+      (2) Visual Studio Code : https://code.visualstudio.com/
+
+   3) JDK 설치 : https://www.oracle.com/kr/java/technologies/javase-downloads.html
+   4) PyQt5 설치
+      - pip install pyqt5
+      - conda update --name="base" --channel="defaults" conda
+      - conda update -n base -c defaults conda
+      - conda create -n 가상환경이름 python=버전
+      - conda create -n pyqt_env python=3.7
+      - conda install --name 가상환경이름 패키지이름
+      - conda install --name pyqt_env pyqt5

@@ -1,0 +1,1 @@
+youtube-dl -ic -o "%%(title)s.%%(ext)s"  -x --audio-format mp3 --audio-quality 0 --playlist-start 1 --playlist-end 5 https://www.youtube.com/playlist?list=PLDIoUOhQQPlXr63I_vwF9GD8sAKh77dWU

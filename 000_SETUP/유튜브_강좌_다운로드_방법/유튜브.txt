@@ -1,0 +1,6 @@
+- ffmpeg 다운 : https://ffmpeg.zeranoe.com/builds/
+- youtube-dl 다운
+  MP3 : https://github.com/ytdl-org/youtube-dl
+          https://github.com/ytdl-org/youtube-dl/releases/tag/2020.07.28
+  동영상 : https://mrs0m30n3.github.io/youtube-dl-gui/
+                      
