@@ -13,7 +13,7 @@ print(KD.columns) #종목 리스트를 구성하는 컬럼 확인
 
 conn = mariadb.connect(
     user='root',
-    password='1945!Akfldk',
+    password='password',
     database='stock_ex',
     host='localhost'
 )  # 접속번호
