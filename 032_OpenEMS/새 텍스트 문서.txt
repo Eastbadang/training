@@ -1,5 +1,0 @@
-https://docs.openems.de/python/install.html#windows
-
-cd C:\opt\openEMS\python
-pip install CSXCAD-0.6.2-cp310-cp310-win_amd64.whl
-pip install openEMS-0.0.33-cp310-cp310-win_amd64.whl
