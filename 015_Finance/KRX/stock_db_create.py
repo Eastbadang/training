@@ -6,7 +6,7 @@ import mariadb
 
 conn = mariadb.connect(
     user='root',
-    password='1945!Akfldk',
+    password='password',
     database='stock_ex',
     host='localhost'
 )  # 접속번호
