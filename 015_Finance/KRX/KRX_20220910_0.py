@@ -8,7 +8,7 @@ import os
 
 item_list = ["005930/삼성전자", "003550/LG", "005380/현대차", "089010/켐트로닉스"]
 #print(date_list)
-download_folder_path = r"D:/Users/MU/Downloads"
+download_folder_path = r"D:/Temp"
 file_path = r"D:/Works/PycharmProjects/001_TRAINING/015_Finance/KRX/개별종목시세추이수집"
 before_file_list = set(os.listdir(download_folder_path))
 
