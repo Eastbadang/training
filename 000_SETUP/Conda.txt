@@ -1,3 +1,0 @@
-conda update conda
-conda update anaconda
-conda update -n base conda
