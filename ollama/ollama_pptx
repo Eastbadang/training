@@ -1,0 +1,77 @@
+import os
+
+# [필수] 윈도우 환경 변수 오류 방지
+os.environ['OLLAMA_HOST'] = '127.0.0.1:11434'
+
+import ollama
+from pptx import Presentation
+
+
+# 1. PPT 파일에서 각 슬라이드별 글자를 추출하는 함수
+def extract_text_from_pptx(file_path):
+    try:
+        prs = Presentation(file_path)
+        ppt_content = ""
+
+        # 슬라이드를 한 장씩 돌면서 텍스트 추출
+        for i, slide in enumerate(prs.slides, 1):
+            ppt_content += f"=== [슬라이드 {i}번째 장] ===\n"
+            for shape in slide.shapes:
+                if hasattr(shape, "text") and shape.text.strip():
+                    ppt_content += shape.text.strip() + "\n"
+            ppt_content += "\n"
+
+        return ppt_content
+    except Exception as e:
+        return f"PPT 파일 읽기 실패: {e}"
+
+
+# 2. 추출한 PPT 내용을 바탕으로 보고용 멘트를 짜는 함수
+def generate_report_script(ppt_text):
+    # AI에게 줄 보고 멘트 작성 미션(프롬프트)
+    prompt = (
+        "너는 대기업 비서실의 베테랑 보고 전문가야.\n"
+        "아래 제공된 [PPT 슬라이드 내용]을 철저히 분석해서, 경영진에 구두로 보고할 때 사용할 '발표 스크립트(보고 멘트)'를 작성해줘.\n\n"
+        "[PPT 슬라이드 내용]\n"
+        f"{ppt_text[:4000]}\n\n"  # 글자가 너무 길면 4000자에서 제한
+        "=== 요구 분석 사항 ===\n"
+        "1. 전체 내용을 관통하는 '한 줄 두괄식 핵심 요약'\n"
+        "2. 각 슬라이드 장별로 발표자가 자연스럽게 읽을 수 있는 '구어체(~했습니다, ~입니다) 보고 멘트'\n"
+        "3. 예상되는 돌발 질문과 이에 대한 '추천 답변 팁'\n\n"
+        "신뢰감 있고 전문적인 톤앤매너로 한글로 작성해줘."
+    )
+
+    try:
+        print("\n🤖 로컬 AI가 PPT 데이터를 기반으로 보고용 멘트를 구성하는 중입니다...")
+
+        client = ollama.Client(timeout=600.0)
+        response = client.generate(
+            model='gemma4:e4b',
+            prompt=prompt
+        )
+        return response['response']
+
+    except Exception as e:
+        return f"❌ AI 분석 실패: {e}"
+
+
+# 🚀 메인 실행부
+if __name__ == "__main__":
+    # 분석하고 싶은 사내 PPT 파일명을 적어주세요.
+    # (주의: 파일이 이 파이썬 파일과 같은 폴더에 있어야 합니다.)
+    ppt_filename = "자료.pptx"
+
+    if os.path.exists(ppt_filename):
+        print(f"📊 [{ppt_filename}] 파일에서 텍스트 추출을 시작합니다...")
+        extracted_text = extract_text_from_pptx(ppt_filename)
+
+        if extracted_text.strip() and "실패" not in extracted_text:
+            print("📝 텍스트 추출 완료! 보고 멘트 작성을 시작합니다.")
+            script_result = generate_report_script(extracted_text)
+
+            print("\n================== 🎤 사내 업무 보고용 스크립트 ==================")
+            print(script_result)
+        else:
+            print(f"❌ PPT 내용을 읽지 못했습니다. 에러 원인: {extracted_text}")
+    else:
+        print(f"❌ {ppt_filename} 파일이 폴더에 없습니다. 파일명을 확인해 주세요.")
