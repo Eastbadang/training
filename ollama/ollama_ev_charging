@@ -1,0 +1,87 @@
+import os
+
+# [핵심] 윈도우 환경 변수 오류 강제 해결
+os.environ['OLLAMA_HOST'] = '127.0.0.1:11434'
+
+import requests
+from bs4 import BeautifulSoup
+import time
+import ollama
+
+HEADERS = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+}
+
+
+def get_article_content(url):
+    try:
+        response = requests.get(url, headers=HEADERS, timeout=5)
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.text, 'html.parser')
+            paragraphs = soup.find_all('p')
+            content = ' '.join([p.get_text().strip() for p in paragraphs])
+            return content[:1500]
+    except Exception as e:
+        print(f"⚠️ 기사 수집 실패 ({url}): {e}")
+        return ""
+
+
+def analyze_trends_with_ollama(news_data):
+    # [수정] 전기차 유선 및 무선 충전 분야에 집중하도록 프롬프트 세팅
+    prompt = (
+        "너는 전기차(EV) 충전 인프라 전문 비즈니스 분석가야.\n"
+        "아래 수집된 뉴스 기사들을 분석하여, 특히 '전기차 유선충전' 및 '무선충전' 기술/시장 분야에 집중해서 핵심 트렌드를 도출해줘.\n\n"
+        "말투는 비즈니스 보고서 스타일로 작성하고, 아래 양식을 엄격히 지켜줘.\n\n"
+    )
+
+    for i, data in enumerate(news_data, 1):
+        prompt += f"[기사 {i}]\n내용: {data}\n\n"
+
+    prompt += (
+        "=== 결과 양식 ===\n"
+        "1. 유선충전 분야 주요 트렌드 및 기술 동향\n"
+        "- (상세 분석 내용 작성)\n\n"
+        "2. 무선충전 분야 주요 트렌드 및 기술 동향\n"
+        "- (상세 분석 내용 작성)\n\n"
+        "3. 향후 우리 기업이 주목해야 할 비즈니스 기회 시사점\n"
+        "- (전략적 제언 작성)\n\n"
+        "한글로 일목요연하게 정리해줘."
+    )
+
+    try:
+        print("\n🤖 로컬 AI가 전기차 충전(유/무선) 트렌드를 분석하는 중입니다...")
+
+        client = ollama.Client(timeout=600.0)
+        response = client.generate(
+            model='gemma4:e4b',
+            prompt=prompt
+        )
+        return response['response']
+
+    except Exception as e:
+        return f"❌ AI 분석 실패: {e}."
+
+
+if __name__ == "__main__":
+    # 분석하고 싶으신 최신 전기차 충전 관련 뉴스 URL들을 아래에 넣으시면 됩니다.
+    news_urls = [
+        "https://asiae.co.kr",
+        "https://hankyung.com",
+        "https://sedaily.com"
+    ]
+
+    collected_articles = []
+    print("🕸️ 뉴스 기사 수집을 시작합니다...")
+    for idx, url in enumerate(news_urls, 1):
+        print(f"[{idx}/{len(news_urls)}] 기사 긁어오는 중: {url}")
+        content = get_article_content(url)
+        if content:
+            collected_articles.append(content)
+        time.sleep(3)
+
+    if collected_articles:
+        analysis_result = analyze_trends_with_ollama(collected_articles)
+        print("\n================== 📊 전기차 충전 트렌드 분석 보고서 ==================")
+        print(analysis_result)
+    else:
+        print("❌ 수집된 뉴스 기사가 없어 분석을 진행하지 못했습니다.")
